@@ -1,0 +1,24 @@
+# Jekyll build output
+_site/
+
+# Sass cache
+.sass-cache/
+
+# Jekyll metadata file
+.jekyll-metadata
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Dependency directories
+.bundle/
+vendor/
+
+# MacOS özel dosyaları
+.DS_Store
+
+# Node.js (eğer kullanıyorsanız)
+node_modules/
