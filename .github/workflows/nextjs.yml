@@ -25,62 +25,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
-      - name: Change directory to virtual-tour-website
-        run: cd docs/virtual-tour-website
-      - name: Detect package manager
-        id: detect-package-manager
-        run: |
-          cd docs/virtual-tour-website
-          if [ -f "yarn.lock" ]; then
-            echo "manager=yarn" >> $GITHUB_OUTPUT
-            echo "command=install" >> $GITHUB_OUTPUT
-            echo "runner=yarn" >> $GITHUB_OUTPUT
-            exit 0
-          elif [ -f "package.json" ]; then
-            echo "manager=npm" >> $GITHUB_OUTPUT
-            echo "command=ci" >> $GITHUB_OUTPUT
-            echo "runner=npx --no-install" >> $GITHUB_OUTPUT
-            exit 0
-          else
-            echo "Unable to determine package manager"
-            exit 1
-          fi
-      - name: Setup Node
+
+      - name: Set Working Directory
+        working-directory: docs/virtual-tour-website
+        run: echo "Working directory set to docs/virtual-tour-website"
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          cache-dependency-path: docs/virtual-tour-website/package-lock.json
           node-version: "20"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: next
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('docs/virtual-tour-website/package-lock.json', 'docs/virtual-tour-website/yarn.lock') }}-${{ hashFiles('docs/virtual-tour-website/**/*.ts', 'docs/virtual-tour-website/**/*.tsx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('docs/virtual-tour-website/package-lock.json', 'docs/virtual-tour-website/yarn.lock') }}-
-      - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-      - name: Build with Next.js
-        run: ${{ steps.detect-package-manager.outputs.runner }} next build --basePath "/docs/virtual-tour-website"
-      - name: Upload artifact
+          cache: "npm"
+          cache-dependency-path: docs/virtual-tour-website/package-lock.json
+
+      - name: Install Dependencies
+        working-directory: docs/virtual-tour-website
+        run: npm install
+
+      - name: Build Next.js Project
+        working-directory: docs/virtual-tour-website
+        run: npm run build
+
+      - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./out
+          path: docs/virtual-tour-website/out
 
-  # Deployment job
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
