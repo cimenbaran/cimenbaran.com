@@ -32,6 +32,7 @@ jobs:
       - name: Detect package manager
         id: detect-package-manager
         run: |
+          cd docs/virtual-tour-website
           if [ -f "yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
