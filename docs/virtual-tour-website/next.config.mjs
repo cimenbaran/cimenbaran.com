@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+export default {
+  output: 'export', // Enables static export
+  basePath: '/virtual-tour-website', // Set the base path for GitHub Pages
+  images: {
+    unoptimized: true, // Disable image optimization
+  },
+};
