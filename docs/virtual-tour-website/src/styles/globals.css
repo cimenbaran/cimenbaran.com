@@ -1,0 +1,45 @@
+/* globals.css */
+
+body {
+  background-color: black; /* Arka planı siyah yapıyoruz */
+  color: white; /* Yazı rengini beyaz yapıyoruz */
+  font-family: 'Arial', sans-serif; /* Genel font */
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #00bfff; /* Linkler için mavi bir renk */
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline; /* Linkler üzerinde hover efekti */
+}
+
+h1, h2, h3, p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Fade-in ve slide-down animasyonu */
+@keyframes fadeInUp {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Ana yazılar için animasyon */
+.fadeInUp {
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+/* Animasyonu yavaşlatmak için */
+.fadeInUpSlow {
+  animation: fadeInUp 1.5s ease-out forwards;
+}
