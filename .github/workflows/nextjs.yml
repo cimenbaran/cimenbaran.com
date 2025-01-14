@@ -45,7 +45,7 @@ jobs:
 
       - name: Build and Export with Next.js
         working-directory: docs/virtual-tour-website
-        run: npm run build && npm run export
+        run: npm run build
 
 
       - name: Upload Artifact
